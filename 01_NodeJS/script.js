@@ -1,6 +1,2 @@
-// const data1 = require("./math");
-// console.log(data1);
-
-const datasOfObjects = require("./math");
-
-console.log(datasOfObjects)
+const ImportecFruits = require('./Fruits');
+console.log(ImportecFruits[0].name);
