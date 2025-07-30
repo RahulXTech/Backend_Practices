@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 let port = 2000;
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
@@ -20,10 +21,11 @@ app.get("/random",(req, res)=>{
 })
 //instagram EJS
 app.get("/ig/:username", (req, res)=>{
-    let {username} = req.params;
-    const instagramData =  require("./data.json")
-    const data = instagramData[username];
-    console.log(instagramData);
-    res.render("instagram.ejs", { data});
+    const flowers = ["rahul", "Mohit", "summit", "ramesh", "aniket", "mukesh"];
+    let {username } = req.params;
+    let usernames = username;
+    console.log(`Hello, ${username}`);
 
+    res.render("instagram.ejs", { usernames, flowers})
 })
+
