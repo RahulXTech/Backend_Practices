@@ -1,19 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<%- include("include/head.ejs") %>
 <body>
     <h1>Instagram</h1>
   <h2>User  <%= data.name %></h2>
-  <h2>followers  <%= data.followers %></h2>
-  <h2>following  <%= data.following %></h2>
-
-
-
-
+  <button>Follow</button> &nbsp; &nbsp; <button>Massage</button>
+  <h2>followers  <%= data.followers %> &nbsp; &nbsp; following  <%= data.following %> </h2>
+  <hr/>
+  <% for(let post of data.posts){ %> 
+    <img src=" <%= post.image %> " alt="Image">
+    <p>Likes - <%= post.likes  %> &nbsp; Comments - <%= post.comments %></p>
+  <% } %>
 </body>
+<script src="/script.js"></script>
 </html>
