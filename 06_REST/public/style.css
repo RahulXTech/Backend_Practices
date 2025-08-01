@@ -1,0 +1,15 @@
+
+h1{
+    color: maroon;
+}
+.post{
+    background-color: brown;
+}
+.user{
+    font-style: italic;
+    font-weight: 900;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.contant{
+    font-style: italic;
+}
