@@ -13,7 +13,11 @@
         <div class="post">
             <h3 class="user">@ <%= post.username %> </h3>
             <h4 class="contant"> <%= post.contant  %> </h4>
+            <a href="http://localhost:2000/posts/<%= post.id %> ">See in details!</a>
+            <a href="http://localhost:2000/posts/<%= post.id %>/edit ">Edit</a>
         </div>
         <% } %>
+        <br><br>
+        <a href="http://localhost:2000/posts/new">Create new post</a>
 </body>
 </html>
