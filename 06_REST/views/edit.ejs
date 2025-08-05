@@ -7,13 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    
-    <form action="">
-        <textarea name="" id="" cols="30" rows="10">
-
-        </textarea><br>
-        <button>Submit</button>
-
-    </form>
+    <h1>Update post record</h1>
+    <h3>user ID :   <%= post.id %> </h3>
+    <h3>user Name : <%= post.username %>  </h3> 
+    <form method="POST" action="/posts/<%= post.id %>?_method=PATCH">
+        <input type="text" name="username" value="<%= post.username %>"><br>
+        <textarea name="contant" cols="30" rows="10"><%= post.contant %></textarea><br>
+        <button type="submit">Submit</button>
+    </form>    
 </body>
 </html>
