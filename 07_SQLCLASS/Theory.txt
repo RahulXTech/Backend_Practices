@@ -1,0 +1,38 @@
+cd "D:\05_DSA_C++\DSA_OOPS_C++\Backend\07_SQLCLASS"
+
+
+const { faker } = require('@faker-js/faker');
+const mysql = require('mysql2');
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'sql@6825',
+    database: 'student'
+  });
+//Inserting NEW datas.
+//   let q = "INSERT INTO users (id, username, email, password) VALUES(?, ?, ?, ?)"; //it is use for single user
+  let q = "INSERT INTO users (id, username, email, password)  VALUES ?"; //it is use for multiple user
+  let users = [
+            ["111", "113_user", "1123user@gmai.com", "1253345abc"],
+            ["22", "223_user", "2223user@gmai.com", "223453abc"]
+        ];
+try{
+    connection.query(q, [users], (err, result)=>{
+        if(err){
+            throw err;
+        }
+        console.log(result);
+    });
+}catch(err){
+    console.log(err);
+}
+connection.end();
+
+let  createRandomUser = ()=>{
+    return{
+        id: faker.string.uuid(),
+        username: faker.internet.username(), 
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+    }
+};
