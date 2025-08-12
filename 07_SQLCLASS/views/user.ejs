@@ -8,8 +8,28 @@
 </head>
 <body>
     <h1>Welcome to user page</h1>
-    <h3>ID : </h3>
-    <h3>Email : </h3>
-    <h3>User : </h3>
+    <table border="1" >
+        <tr>
+          <th>ID</th>
+          <th>Email</th>  
+          <th>UserName</th>
+          <th>Edit UserName</th>
+        </tr>
+        <%for(user of result){  %>
+            <tr>
+                <td> <%= user.id  %></td>
+                <td> <%= user.email  %></td>
+                <td> <%= user.username  %></td>
+                <td>
+
+                  <form method="GET" action="/user/<%= user.id %>/edit">
+                    <button>Edit userName</button>
+                  </form>
+                </td>
+              </tr>
+              <% }  %>
+      </table>
 </body>
 </html>
+
+
