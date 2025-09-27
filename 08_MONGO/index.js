@@ -45,9 +45,7 @@ User.find().then((res)=>{
 // .then((res)=>{
 //   console.log(res);
 // })
-// .catch((err)=>{
-//   console.log(err)
-// })
+// .catch(err=> console.log(err));
 
 //=============Inserting Multiple data==============
 // User.insertMany([
@@ -60,6 +58,4 @@ User.find().then((res)=>{
 // ])
 // .then((result)=>{
 //   console.log(result);
-// }).catch((err)=>{
-//   console.log(err)
-// });
+// }).catch(err=> console.log(err));
