@@ -1,0 +1,4 @@
+REST API - JSON
+
+GET /users  - List all users
+GET /user/1- 

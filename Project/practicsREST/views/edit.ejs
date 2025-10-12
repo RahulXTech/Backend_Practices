@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Post UI</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f1724; color: #e6eef8; padding: 20px; }
+    .form-container { max-width: 400px; margin: auto; background: #0b1220; padding: 20px; border-radius: 12px; }
+    h2 { margin-top: 0; }
+    input, textarea { display: block; margin-bottom: 10px; padding: 8px; width: 100%; border-radius: 6px; border: none; background: #081427; color: #fff; }
+    button { padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; margin-right: 6px; }
+    .btn-save { background: #7c3aed; color: #fff; }
+    .btn-cancel { background: transparent; border: 1px solid #94a3b8; color: #94a3b8; }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Edit Post</h2>
+
+    <label>Username:</label>
+    <input type="text" placeholder="Enter username">
+
+    <label>Description:</label>
+    <textarea rows="3" placeholder="Enter description"></textarea>
+
+    <label>Image URL:</label>
+    <input type="text" placeholder="Enter image URL">
+
+    <button class="btn-save">Save</button>
+    <button class="btn-cancel">Cancel</button>
+  </div>
+
+</body>
+</html>
