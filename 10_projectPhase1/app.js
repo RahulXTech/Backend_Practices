@@ -3,7 +3,8 @@ const app = express();
 const mongoose = require("mongoose");
 const Listing = require("../10_projectPhase1/models/listing.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MONGO_URL = "mongodb://localhost:27017/wanderlust";
 
 main()
   .then(() => {
@@ -21,22 +22,28 @@ app.get("/", (req, res) => {
   res.send("Hi, I am root");
 });
 
-app.get("/testListing", async (req, res) => {
-  try {
-    let sampleListing = new Listing({
-      title: "My New Village",
-      description: "Beautiful village place",
-      price: 123,
-      location: "Canada, Goa",  
-      country: "India",
-    });
+// app.get("/testListing", async (req, res) => {
+//   try {
+//     let sampleListing = new Listing({
+//       title: "My New Village",
+//       description: "Beautiful village place",
+//       price: 123,
+//       location: "Canada, Goa",  
+//       country: "India",
+//     });
 
-    await sampleListing.save();
-    res.send("Sample listing saved successfully!");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error saving listing");
-  }
+//     await sampleListing.save();
+//     res.send("Sample listing saved successfully!");
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Error saving listing");
+//   }
+// });
+
+app.get("/Listing",(req,res)=>{
+  Listing.find({}).then((res)=>{
+    console.log(res)
+  });
 });
 
 app.listen(8080, () => {

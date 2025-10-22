@@ -8,15 +8,22 @@ const ListingSchema = new Schema({
   },
   description: String,
   image: {
-    type: String,
-    set: (v) =>
-      v === ""
-        ? "https://tse4.mm.bing.net/th/id/OIP.DJ9kFLwuoKQfFaJiI8X3ggHaE8?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3"
-        : v,
+    filename: {
+      type: String,
+      default: "listingimage"
+    },
+    url: {
+      type: String,
+      default: "https://cdn.pixabay.com/photo/2022/10/07/10/51/the-glacier-7504780_1280.jpg",
+      set: (v) =>
+        v === ""
+          ? "https://cdn.pixabay.com/photo/2022/10/07/10/51/the-glacier-7504780_1280.jpg"
+          : v,
+    }
   },
   price: Number,
   location: String,
-  country: String, // ✅ fixed spelling
+  country: String,
 });
 
 const Listing = mongoose.model("Listing", ListingSchema);
