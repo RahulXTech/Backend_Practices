@@ -19,7 +19,7 @@ let posts = [
   { id: 110, username: 'wanderlust', description: 'Exploring hidden gems off the beaten path.', image: 'https://images.unsplash.com/photo-1517821364227-16f28f4fa58f?q=80&w=600&auto=format&fit=crop' }
 ];
 
-
+     
 app.get("/", (req,res)=>{
     res.send("server is working well!!!!");
 })
