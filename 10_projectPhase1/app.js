@@ -31,14 +31,33 @@ app.get("/listing", async (req, res) => {
     res.status(500).send("Error fetching listings");
   }
 });
+//New route. 
+app.get("/listing/new",(req, res)=>{
 
+  res.render("listings/new.ejs");
+}) 
 //show route.
 app.get("/listing/:id", async(req,res)=>{
   let {id} = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/show", {listing})
 })
+//create route
+app.post("/listings",async(req, res)=>{
+  const newListing = new Listing(req.body.listing);
+  await newListing.save();
+  res.redirect("/listing");
+
+})
+//update route 
+app.get("/listing/:id/edit", async(req, res)=>{
+  let {id} = req.params;
+  const listing = await Listing.findById(id);
+  res.render("/listing/edit.ejs", listing);
+})
+
 
 app.listen(8080, () => {
   console.log("🚀 Server is listening on port 8080");
 });
+

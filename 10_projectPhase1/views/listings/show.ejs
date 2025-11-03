@@ -1,20 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listing Details</title>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #74ABE2, #5563DE);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+      width: 420px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #4A4AE1;
+      margin-bottom: 25px;
+      font-size: 26px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      background-color: #f6f6ff;
+      margin-bottom: 12px;
+      padding: 12px 15px;
+      border-radius: 10px;
+      font-size: 16px;
+      text-align: left;
+      transition: all 0.3s ease;
+    }
+
+    li:hover {
+      background-color: #e8e8ff;
+      transform: scale(1.02);
+    }
+
+    .price {
+      color: #2f4fe2;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .footer {
+      margin-top: 25px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Listing Details : </h1>
+  <div class="container">
+    <h1>Listing Details</h1>
+
     <ul>
-        <li><%= listing.title %> </li>
-        <li><%= listing.description %> </li>
-        <li>&#8377; <%=listing.price %> </li>
-        <li><%= listing.location %> </li>
-        <li><%= listing.country %> </li>
-        
+      <li><strong>Title:</strong> <%= listing.title %></li>
+      <li><strong>Description:</strong> <%= listing.description %></li>
+      <li class="price">&#8377; <%= listing.price.toLocaleString("en-IN") %></li>
+      <li><strong>Location:</strong> <%= listing.location %></li>
+      <li><strong>Country:</strong> <%= listing.country %></li>
     </ul>
-    
+
+    <div class="footer">🌍 WanderLust Listings</div>
+  </div>
 </body>
 </html>
