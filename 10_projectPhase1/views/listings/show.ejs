@@ -79,8 +79,9 @@
       <li><strong>Location:</strong> <%= listing.location %></li>
       <li><strong>Country:</strong> <%= listing.country %></li>
     </ul>
-
     <div class="footer">🌍 WanderLust Listings</div>
+<a href="/listings/<%= listing._id %>/edit">Edit Data</a><br><br>
+<form method="POST" action="/listings/<%=listing._id%>?_method=DELETE"><button>Delete record</button></form>
   </div>
 </body>
 </html>
