@@ -4,73 +4,85 @@ const mongoose = require("mongoose");
 const Listing = require("./models/listing");
 const path = require("path");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 
 const MONGO_URL = "mongodb://localhost:27017/wanderlust";
 
 main()
   .then(() => console.log("✅ Connected to DB"))
   .catch((err) => console.log("❌ DB Connection Error:", err));
-
+ 
 async function main() {
   await mongoose.connect(MONGO_URL);
 }
 
+// ✅ Register ejs-mate first
+app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({extended : true}));
-app.use(methodOverride("_method"));
 
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "/public")));
+
+// Serve static files (important for your /css/style.css)
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
   res.send("Hi, I am root");
 });
+
 app.get("/listing", async (req, res) => {
   try {
     const allListing = await Listing.find({});
-    res.render("listings/index", { allListing });
+    res.render("listings/index", {title: "All All Listings", allListing });
   } catch (err) {
     console.error("❌ Error fetching listings:", err);
     res.status(500).send("Error fetching listings");
   }
 });
-//New route. 
-app.get("/listing/new",(req, res)=>{
 
-  res.render("listings/new.ejs");
-}) 
-//show route.
-app.get("/listing/:id", async(req,res)=>{
-  let {id} = req.params;
+// New route
+app.get("/listing/new", (req, res) => {
+  res.render("listings/new" , {title: "All All Listings"});
+});
+
+// Show route
+app.get("/listing/:id", async (req, res) => {
+  let { id } = req.params;
   const listing = await Listing.findById(id);
-  res.render("listings/show", {listing})
-})
-//create route
-app.post("/listings",async(req, res)=>{
+  res.render("listings/show", { listing });
+});
+
+// Create route
+app.post("/listings", async (req, res) => {
   const newListing = new Listing(req.body.listing);
   await newListing.save();
   res.redirect("/listing");
+});
 
-})
-//edit route 
-app.get("/listings/:id/edit", async(req, res)=>{
-  let {id} = req.params;
+// Edit route
+app.get("/listings/:id/edit", async (req, res) => {
+  let { id } = req.params;
   const listing = await Listing.findById(id);
-  res.render("listings/edit", {listing});
-})
+  res.render("listings/edit", { listing });
+});
 
-//update route
-app.put("/listings/:id", async(req, res)=>{
-  let {id} = req.params;
-  await Listing.findByIdAndUpdate(id, {...req.body});
+// Update route
+app.put("/listings/:id", async (req, res) => {
+  let { id } = req.params;
+  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
   res.redirect(`/listing/${id}`);
-})
-//delete route
-app.delete("/listings/:id", async(req, res)=>{
-  let {id} = req.params;
+});
+
+// Delete route
+app.delete("/listings/:id", async (req, res) => {
+  let { id } = req.params;
   let deleteListing = await Listing.findByIdAndDelete(id);
   console.log(deleteListing);
   res.redirect("/listing");
-})
+});
+
 app.listen(8080, () => {
   console.log("🚀 Server is listening on port 8080");
-})
+});

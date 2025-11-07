@@ -1,0 +1,37 @@
+body{
+.momo-trust-display-regular {
+  font-family: "Momo Trust Display", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+}
+
+.fa-brands{
+    color: brown;
+    font-size: 2rem;
+}
+.navbar-nav{
+    font-size: 1rem;
+    font-weight: 600;
+    color: black !important;
+}
+.card{
+    margin: 1vw;
+}
+.card-img-top{
+    height: 18rem;
+}
+.listing-link{
+    text-decoration: none;
+}
+.card-body{
+  font-weight: 700;
+}
+.card-img-overlay1{
+    background-color: white;
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 12px;
+    width: 35%;
+}

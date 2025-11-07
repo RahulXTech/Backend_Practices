@@ -1,122 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>All Listings</title>
+<% layout('/layouts/boilerplate') %>
 
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #74ABE2, #5563DE);
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      color: #333;
-    }
-
-    .container {
-      background-color: #fff;
-      width: 600px;
-      margin-top: 60px;
-      padding: 30px 40px;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    h1 {
-      text-align: center;
-      color: #4A4AE1;
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    .button {
-      display: block;
-      margin: 0 auto 25px auto;
-      padding: 10px 22px;
-      font-family: "Poppins", sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      border-radius: 8px;
-      border: none;
-      color: #fff;
-      background: linear-gradient(180deg, #4B91F7 0%, #367AF6 100%);
-      box-shadow: 0 2px 6px rgba(54, 122, 246, 0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(180deg, #367AF6 0%, #2f68e8 100%);
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    li {
-      background-color: #f6f6ff;
-      margin-bottom: 12px;
-      padding: 12px 15px;
-      border-radius: 10px;
-      font-size: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.3s ease;
-    }
-
-    li:hover {
-      background-color: #e8e8ff;
-      transform: scale(1.02);
-    }
-
-    a {
-      text-decoration: none;
-      color: #2f4fe2;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    a:hover {
-      color: #1829b7;
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 14px;
-      color: #555;
-      margin-top: 20px;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-    <h1>All Listings</h1>
-    <form method="GET" action="/Listing/new">
-      <button class="button">Create</button>
-    </form>
-<form method="POST" action="/listing/edit">
-    <ul>
-      <% for (let listing of allListing) { %>
-        <li>
-          <a href="/listing/<%= listing._id %>"><%= listing.title %></a>
-          <span><%= listing._id %></span>
-          <button>Edit_Record</button>
-        </li>
-      <% } %>
-    </ul>
-    </form>
-
-    <div class="footer">🌍 WanderLust Listings</div>
+<% // ✅ Safely set title so it never throws an error %>
+<% const pageTitle = typeof title !== "undefined" ? title : "WanderLust"; %>
+<title><%= pageTitle %></title>
+  <div class="row row-cols-lg-4 row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <% for (let listing of allListing) { %>
+      <a class="listing-link" href="/listing/<%= listing._id %>">
+      <div class="card col" style="width: 18rem;">
+          <img class="card-img-top" src="<%= listing.image.url %>" alt="Card image cap">
+          <div class="card-img-overlay"><div class="card-img-overlay1">Guest favourite</div> </div>
+          <div class="card-body">
+            <div class="card-text"><%= listing.title %></div>
+            <div class="card-text">Location : <%= listing.location %></div>
+            <div class="card-text"><%= listing.price %>/Night</div>
+          </div>
+        </div>
+      </a>
+        <% } %>
   </div>
-</body>
-</html>
