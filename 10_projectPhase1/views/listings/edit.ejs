@@ -4,31 +4,71 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit Listing - WanderLust</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: 'Poppins', sans-serif;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
 </head>
 
 <body>
-  <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+  <div class="form-container">
     <h2>Edit Listing</h2>
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" novalidate>
+      
+      <div class="mb-3">
+        <label for="title" class="form-label">Title:</label>
+        <input type="text" class="form-control" id="title" name="title" value="<%= listing.title %>" required>
+      </div>
 
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" value="<%= listing.title %>" required>
-    <br>
-    <label for="description">Description:</label>
-    <textarea id="description" name="description" rows="4" cols="40"><%= listing.description %></textarea>
-    <br>
-    <label for="price">Price (₹):</label>
-    <input type="number" id="price" name="price" value="<%= listing.price %>" required>
-<br>
-    <label for="location">Location:</label>
-    <input type="text" id="location" name="location" value="<%= listing.location %>">
-<br>
-    <label for="country">Country:</label>
-    <input type="text" id="country" name="country" value="<%= listing.country %>">
-<br>
-    <label for="url">Image URL:</label>
-    <input type="url" id="url" name="url" value="<%= listing.image.url %>">
-<br>
-    <button type="submit">Update Listing</button>
-  </form>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description:</label>
+        <textarea class="form-control" id="description" name="description" rows="4"><%= listing.description %></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price (₹):</label>
+        <input type="number" class="form-control" id="price" name="price" value="<%= listing.price %>" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="location" class="form-label">Location:</label>
+        <input type="text" class="form-control" id="location" name="location" value="<%= listing.location %>">
+      </div>
+
+      <div class="mb-3">
+        <label for="country" class="form-label">Country:</label>
+        <input type="text" class="form-control" id="country" name="country" value="<%= listing.country %>">
+      </div>
+
+      <div class="mb-3">
+        <label for="url" class="form-label">Image URL:</label>
+        <input type="url" class="form-control" id="url" name="url" value="<%= listing.image.url %>">
+      </div>
+
+      <button type="submit" class="btn btn-success w-100">Update Listing</button>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
