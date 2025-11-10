@@ -41,13 +41,23 @@ let checkToken = (req, res, next)=>{
     }
     throw new ExpressError(404,"ACCESS DENIED!");
 }
-app.get("/err", (req, res)=>{
-    apc == apc
+
+//Activity to create self error
+app.get("/admin", (req, res)=>{
+    throw new ExpressError(403, "Access to admin is forbidden");
 });
+
+// app.get("/err", (req, res)=>{
+//     apc == apc
+// });
+//Error Handling Middleware
 app.use((err, req, res,next)=>{
     let {status=500, message="some Error Occurred"} = err;
     res.status(status).send(message)
 });
+
+
+
 app.get("/api", checkToken,(req, res)=>{
     res.send("data");
 });
