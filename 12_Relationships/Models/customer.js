@@ -56,3 +56,9 @@ addCustomer();
 //         console.log(res);
 // };
 // addOrders();
+
+const addCust = async()=>{
+    let newCust = new Customer({
+       naem :  
+    })
+}
