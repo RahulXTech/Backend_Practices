@@ -10,7 +10,10 @@ const ExpressError = require("./utils/ExpressError");
 const { title } = require("process");
 const MONGO_URL = "mongodb://localhost:27017/wanderlust";
 const {listigSchema} = require("./schema");
-const {listingSchema} = require("./schema");
+const {listingSchema, reviewSchema} = require("./schema");
+const Review = require("./models/review");
+
+
 main()
   .then(() => console.log("✅ Connected to DB"))
   .catch((err) => console.log("❌ DB Connection Error:", err));
@@ -43,8 +46,18 @@ const validateListing = (req, res, next)=>{
   }else{
     next();
   }
+};
+const validateReview = (req, res, next)=>{
+    let {error} =  reviewSchema.validate(req.body);
+    if(error){
+      let errMsg = error.details.map((el)=> el.message).join(",");
+      throw new ExpressError(400, errMsg);
+  }else{
+    next();
+  }
+};
 
-}
+
 
 app.get("/listing", async (req, res) => {
   try {
@@ -95,6 +108,22 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
   console.log(deleteListing);
   res.redirect("/listing");
 }));
+
+// Reviews - Post route
+app.post("/listings/:id/reviews",validateReview, wrapAsync(async(req, res) => {
+  let listing = await Listing.findById(req.params.id);
+  let newReview = new Review(req.body.review);
+
+  listing.reviews.push(newReview);
+
+  await newReview.save();
+  await listing.save();
+
+  console.log("new review saved");
+
+  return res.redirect(`/listing/${listing._id}`);  // FIXED
+}));
+
 
 //It will send the custom massage for wrong all routes
 app.use((req,res, next)=>{
