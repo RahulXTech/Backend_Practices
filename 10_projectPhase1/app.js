@@ -47,6 +47,7 @@ const validateListing = (req, res, next)=>{
     next();
   }
 };
+
 const validateReview = (req, res, next)=>{
     let {error} =  reviewSchema.validate(req.body);
     if(error){
@@ -56,8 +57,6 @@ const validateReview = (req, res, next)=>{
     next();
   }
 };
-
-
 
 app.get("/listing", async (req, res) => {
   try {
