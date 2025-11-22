@@ -1,5 +1,7 @@
 const { types } = require("joi");
 const mongoose = require("mongoose");
+const { listingSchema } = require("../schema");
+const review = require("./review");
 const Schema = mongoose.Schema;
 
 const ListingSchema = new Schema({
@@ -32,6 +34,17 @@ const ListingSchema = new Schema({
     },
   ]
 });
+
+
+// FIXED middleware
+ListingSchema.post("findOneAndDelete", async (listing) => {
+  if (listing) {
+    await review.deleteMany({ _id: { $in: listing.reviews } });
+  }
+});
+
+
+
 
 const Listing = mongoose.model("Listing", ListingSchema);
 module.exports = Listing;

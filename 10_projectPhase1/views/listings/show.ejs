@@ -59,6 +59,26 @@
 
   <button class="btn btn-outline-dark">Submit</button>
 </form>
+<hr/>
+<p><b>All Reviews</b></p>
+
+<div class="row g-3">
+  <% for (let review of listing.reviews) { %>
+    <div class="col-12 col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-2">Jane Doe</h5>
+          <p class="card-text mb-1"><%= review.comment %></p>
+          <p class="card-text text-muted">Rated: <%= review.rating %> ★</p>
+          <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="">
+            <button>delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  <% } %>
+</div>
 
   </div>
   <!-- Bootstrap JS -->

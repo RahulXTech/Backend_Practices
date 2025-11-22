@@ -12,6 +12,7 @@ const MONGO_URL = "mongodb://localhost:27017/wanderlust";
 const {listigSchema} = require("./schema");
 const {listingSchema, reviewSchema} = require("./schema");
 const Review = require("./models/review");
+const review = require("./models/review");
 
 
 main()
@@ -76,7 +77,7 @@ app.get("/listing/new", (req, res) => {
 // Show route
 app.get("/listing/:id", async (req, res) => {
   let { id } = req.params;
-  const listing = await Listing.findById(id);
+  const listing = await Listing.findById(id).populate("reviews");
   res.render("listings/show", { listing, title:"Show listing" });
 });
 // Create route
@@ -121,6 +122,20 @@ app.post("/listings/:id/reviews",validateReview, wrapAsync(async(req, res) => {
   console.log("new review saved");
 
   return res.redirect(`/listing/${listing._id}`);  // FIXED
+}));
+
+// Delete Review Route
+app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
+  let { id, reviewId } = req.params;
+
+  // Remove review reference from listing
+  await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+
+  // Delete review document
+  await Review.findByIdAndDelete(reviewId);
+
+  // Redirect or send response
+  res.redirect(`/listing/${id}`);
 }));
 
 
