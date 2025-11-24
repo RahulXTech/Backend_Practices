@@ -10,13 +10,10 @@ const ExpressError = require("./utils/ExpressError");
 const { title } = require("process");
 const MONGO_URL = "mongodb://localhost:27017/wanderlust";
 const {listingSchema, reviewSchema} = require("./schema");
-const Review = require("./models/review");
+// const Review = require("./models/review");
 const review = require("./models/review");
 const listing = require("./Routes/listings");
-const reviews = require("./Routes/review");
-
-
-
+const Review = require("./Routes/review");
 
 main()
   .then(() => console.log("✅ Connected to DB"))
@@ -34,7 +31,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use("/", listing);
-app.use("/review", reviews)
+app.use("/", Review)
 
 // Serve static files (important for your /css/style.css)
 app.use(express.static(path.join(__dirname, "public")));

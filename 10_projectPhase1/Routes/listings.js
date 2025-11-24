@@ -39,6 +39,7 @@ route.get("/listing/:id", async (req, res) => {
   const listing = await Listing.findById(id).populate("reviews");
   res.render("listings/show", { listing, title:"Show listing" });
 });
+
 // Create route
 route.post("/listings",validateListing, wrapAsync( async(req, res) => {
     const newListing = new Listing(req.body.listing);
@@ -67,5 +68,4 @@ route.delete("/listings/:id", wrapAsync(async (req, res) => {
   console.log(deleteListing);
   res.redirect("/listing");
 }));
-
 module.exports = route;
