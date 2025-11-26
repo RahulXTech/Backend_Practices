@@ -14,6 +14,32 @@ const {listingSchema, reviewSchema} = require("./schema");
 const review = require("./models/review");
 const listing = require("./Routes/listings");
 const Review = require("./Routes/review");
+const { date } = require("joi");
+const session = require("express-session");
+const flash = require("connect-flash")
+
+const sessionOption = {
+  secret : "mysupersecretcode", 
+  resave : false,
+  saveUnitialized : true,
+  cookie: {
+    expiress: Date.now() + 7*24*60*60*1000,
+    maxAge : 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  }
+}
+app.use(session(sessionOption));
+app.use(flash());
+
+app.use((req, res, next)=>{
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
+
+app.get("/", (req, res) => {
+  res.render("listings/home", {title : "Home page"});
+});
 
 main()
   .then(() => console.log("✅ Connected to DB"))
@@ -36,10 +62,6 @@ app.use("/", Review)
 // Serve static files (important for your /css/style.css)
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
-  // res.send("Hi, I am root");
-  res.render("listings/home", {title : "Home page"})
-});
 
 //It will send the custom massage for wrong all routes
 app.use((req,res, next)=>{
@@ -58,3 +80,9 @@ app.use((err, req, res, next)=>{
 app.listen(8080, () => {
   console.log("🚀 Server is listening on port 8080");
 });
+
+
+
+
+
+

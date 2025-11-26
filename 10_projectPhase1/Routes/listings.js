@@ -44,7 +44,9 @@ route.get("/listing/:id", async (req, res) => {
 route.post("/listings",validateListing, wrapAsync( async(req, res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
+    req.flash("success", "New listing created!")
     res.redirect("/listing");  
+
 }));
 
 // Edit route
