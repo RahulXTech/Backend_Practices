@@ -16,7 +16,11 @@ const listing = require("./Routes/listings");
 const Review = require("./Routes/review");
 const { date } = require("joi");
 const session = require("express-session");
-const flash = require("connect-flash")
+const flash = require("connect-flash");
+const passport = require("passport");
+const localStrategy = require("passport-local")
+const User = require("./models/user.js");
+
 
 const sessionOption = {
   secret : "mysupersecretcode", 
@@ -31,6 +35,8 @@ const sessionOption = {
 app.use(session(sessionOption));
 app.use(flash());
 
+app.use(passport.initialize());
+
 app.use((req, res, next)=>{
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
@@ -40,6 +46,16 @@ app.use((req, res, next)=>{
 app.get("/", (req, res) => {
   res.render("listings/home", {title : "Home page"});
 });
+app.get("/demouser",async(req, res)=>{
+  let fakeUser = new User({
+    email: "student@gmail.com",
+    username: "delta-student"
+  });
+  let registerdUser = await User.register(fakeUser, "helloworld");
+  res.send(registerdUser);
+})
+
+
 
 main()
   .then(() => console.log("✅ Connected to DB"))
@@ -57,7 +73,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use("/", listing);
-app.use("/", Review)
+app.use("/", Review);
 
 // Serve static files (important for your /css/style.css)
 app.use(express.static(path.join(__dirname, "public")));
@@ -80,9 +96,3 @@ app.use((err, req, res, next)=>{
 app.listen(8080, () => {
   console.log("🚀 Server is listening on port 8080");
 });
-
-
-
-
-
-
