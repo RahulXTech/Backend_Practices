@@ -20,6 +20,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local")
 const User = require("./models/user.js");
+const user = require("./Routes/user.js")
 
 
 const sessionOption = {
@@ -77,7 +78,6 @@ app.use("/", Review);
 
 // Serve static files (important for your /css/style.css)
 app.use(express.static(path.join(__dirname, "public")));
-
 
 //It will send the custom massage for wrong all routes
 app.use((req,res, next)=>{

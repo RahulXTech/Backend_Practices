@@ -10,7 +10,6 @@ const userSchema = new Schema({
         required: true
     }
 })
-
 userSchema.plugin(passportLocalMongoose);  // <-- ONLY this fixed
 
 module.exports = mongoose.model('User', userSchema);
