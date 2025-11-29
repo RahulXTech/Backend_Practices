@@ -5,6 +5,7 @@ const wrapAsync = require("../utils/wrapAsync")
 const ExpressError = require("../utils/ExpressError");
 const {listingSchema, reviewSchema} = require("../schema");
 const Listing = require("../models/listing");
+const {isLoggedIn} = require("../middleWare.js");
 
 
 
@@ -29,7 +30,7 @@ route.get("/listing", async (req, res) => {
 });
 
 // New route
-route.get("/listing/new", (req, res) => {
+route.get("/listing/new", isLoggedIn,(req, res) => {
   res.render("listings/new" , {title: "All All Listings"});
 });
 
@@ -54,7 +55,7 @@ route.post("/listings",validateListing, wrapAsync( async(req, res) => {
 }));
 
 // Edit route
-route.get("/listings/:id/edit", wrapAsync (async (req, res) => {
+route.get("/listings/:id/edit",isLoggedIn, wrapAsync (async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   if(!listing){
@@ -65,7 +66,7 @@ route.get("/listings/:id/edit", wrapAsync (async (req, res) => {
 }));
 
 // Update route
-route.put("/listings/:id", wrapAsync( async (req, res) => {
+route.put("/listings/:id",isLoggedIn, wrapAsync( async (req, res) => {
   let { id } = req.params;
   await Listing.findByIdAndUpdate(id, { ...req.body.listing });
   req.flash("success", "listing updated!!")
@@ -73,7 +74,7 @@ route.put("/listings/:id", wrapAsync( async (req, res) => {
 }));
 
 // Delete route
-route.delete("/listings/:id", wrapAsync(async (req, res) => {
+route.delete("/listings/:id",isLoggedIn, wrapAsync(async (req, res) => {
   let { id } = req.params;
   let deleteListing = await Listing.findByIdAndDelete(id);
   console.log(deleteListing);
