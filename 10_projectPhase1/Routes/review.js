@@ -5,6 +5,7 @@ const Listing = require("../models/listing");
 const wrapAsync = require("../utils/wrapAsync");
 const ExpressError = require("../utils/ExpressError");
 const { reviewSchema } = require("../schema");
+const { isReviewAuthor, isLoggedIn } = require("../middleWare")
 
 
 // Validate review
@@ -25,7 +26,8 @@ route.post(
   wrapAsync(async (req, res) => {
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
-
+    // console.log("||||||||||||||||||||||||||||||| : ", newReview);
+    newReview.author = req.user._id;
     listing.reviews.push(newReview);
 
     await newReview.save();
@@ -37,16 +39,18 @@ route.post(
   })
 );
 
-// DELETE Review
+// DELETE Review.
 route.delete(
   "/listings/:id/reviews/:reviewId",
+  isLoggedIn,
+  isReviewAuthor,
   wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
 
     await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
     req.flash("success", "Review deleted!!")
-    res.redirect(`/listing/${id}`);
+    res.redirect(`/listings/${id}`);
   })
 );
 // EXPORT ROUTER

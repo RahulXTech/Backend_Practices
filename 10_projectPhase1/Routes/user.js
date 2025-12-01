@@ -51,8 +51,9 @@ router.get("/logout", (req, res, next)=>{
     if(err){
       next(err);
     }
-    req.flash("success", "You are logged out now!")
-    res.redirect("/listing")
+    req.flash("success", "You are logged out now!");
+    res.redirect("/listing");
   })
 });
+
 module.exports = router;
