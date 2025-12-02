@@ -3,57 +3,23 @@ const router = express.Router();   // ✅ Correct
 const User = require("../models/user.js");
 const passport = require("passport");
 const { saveRedirectUrl } = require("../middleWare.js");
+const userController = require("../controllers/user.js")
 
 router.get("/signup", (req, res) => {
   res.render("users/signup.ejs", {title :"simple titile!!!!"});
-});
+}); 
 
-router.post("/signup", async(req, res)=>{
- try{
-  let {username, email, password} = req.body;
-  const newUser = new User({email, username});
-  const registeredUser = await User.register(newUser, password)
-  console.log(registeredUser)
-  req.login(registeredUser, (err)=>{
-    if(err){
-    return next(err);
-  }
-    req.flash("success", "Welcome to wanderlust!");
-    res.redirect("/");
-  })
-  
- }catch(e){
-  console.log(e);
-  req.flash("error", e.message);
-  res.redirect("/signup");
- }
-})
+router.post("/signup", userController.signup)
+
 router.get("/login", (req, res)=>{
   res.render("users/login.ejs", {title : "simple title of login."})
 })
 
 router.post(
   "/login",
-  saveRedirectUrl,
-  passport.authenticate("local", {
-    failureRedirect: "/login",
-    failureFlash: true
-  }),
-  async(req, res) => {
-    req.flash("success", "Welcome back!");
-    let redirectUrl = res.locals.redirectUrl || "/listing"
-    res.redirect(redirectUrl);  // page after login
-  }
+  saveRedirectUrl,userController.login
 );
 
-router.get("/logout", (req, res, next)=>{
-  req.logout((err)=>{
-    if(err){
-      next(err);
-    }
-    req.flash("success", "You are logged out now!");
-    res.redirect("/listing");
-  })
-});
+router.get("/logout", userController.logout);
 
 module.exports = router;
