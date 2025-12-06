@@ -1,3 +1,8 @@
+
+if(process.env.NODE_ENV != "production"){
+  require('dotenv').config();
+}
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -24,7 +29,6 @@ const User = require("./models/user.js");
 const userRouter = require("./Routes/user.js");
 const listingRouter = require("./Routes/listings.js");
 const reviewRouter = require("./Routes/review.js");
-
 
 const sessionOption = {
   secret : "mysupersecretcode", 
@@ -83,8 +87,9 @@ async function main() {
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
+app.use(express.urlencoded({extended : true }));
 app.use(express.urlencoded({ extended: true }));
+
 app.use(methodOverride("_method"));
 app.use("/", listingRouter);
 app.use("/", reviewRouter);

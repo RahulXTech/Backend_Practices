@@ -9,7 +9,7 @@ const userSchema = new Schema({
     email: {
         type: String,   // <-- ONLY this fixed (String instead of string)
         required: true
-    }
+    }  
 })
 userSchema.plugin(passportLocalMongoose);  // <-- ONLY this fixed
 

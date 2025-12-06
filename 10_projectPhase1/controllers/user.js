@@ -9,7 +9,7 @@ module.exports.signup = async(req, res)=>{
   console.log(registeredUser)
   req.login(registeredUser, (err)=>{
     if(err){
-    return next(err);
+    return next(err); 
   }
     req.flash("success", "Welcome to wanderlust!");
     res.redirect("/");
@@ -22,7 +22,7 @@ module.exports.signup = async(req, res)=>{
  }
 }
 
-module.exports.login =  passport.authenticate("local", {
+module.exports.login = [passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true
   }),
@@ -30,7 +30,7 @@ module.exports.login =  passport.authenticate("local", {
     req.flash("success", "Welcome back!");
     let redirectUrl = res.locals.redirectUrl || "/listing"
     res.redirect(redirectUrl);  // page after login
-  };
+  }];
 
 
 module.exports.logout = (req, res, next)=>{

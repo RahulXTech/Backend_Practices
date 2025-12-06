@@ -6,6 +6,9 @@ const {listingSchema, reviewSchema} = require("../schema");
 const Listing = require("../models/listing");
 const {isLoggedIn} = require("../middleWare.js");
 const lisgingController = require("../controllers/listings.js")
+const multer = require("multer");
+const upload = multer({dest : 'uploads/'})
+
 
 const validateListing = (req, res, next)=>{
     let {error} =  listingSchema.validate(req.body);
@@ -26,7 +29,11 @@ route.get("/listing/new",isLoggedIn, lisgingController.newRoute);
 route.get("/listing/:id", lisgingController.showRoute);
 
 // Create route
-route.post("/listings",validateListing, wrapAsync(lisgingController.createRoute));
+// route.post("/listings",validateListing, wrapAsync(lisgingController.createRoute));
+route.post("/listings", upload.single('listing[image][url]') ,(req, res)=>{
+  res.send(req.file);
+  console.log(req.file);
+})
 
 // Edit route
 route.get("/listings/:id/edit",isLoggedIn, wrapAsync (lisgingController.editRoute));
