@@ -11,18 +11,8 @@ const ListingSchema = new Schema({
   },
   description: String,
   image: {
-    filename: {
-      type: String,
-      default: "listingimage"
-    },
-    url: {
-      type: String,
-      default: "https://cdn.pixabay.com/photo/2022/10/07/10/51/the-glacier-7504780_1280.jpg",
-      set: (v) =>
-        v === ""
-          ? "https://cdn.pixabay.com/photo/2022/10/07/10/51/the-glacier-7504780_1280.jpg"
-          : v,
-    }
+    url : String,
+    filename : String,
   },
   price: Number,
   location: String,

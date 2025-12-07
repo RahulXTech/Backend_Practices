@@ -25,7 +25,6 @@ module.exports.showRoute = async (req, res) => {
     }
   })
     .populate("owner");
-
   if(!listing){
     req.flash("error", "listing you requested for does not exist!");
     return res.redirect("/listing");
@@ -34,13 +33,21 @@ module.exports.showRoute = async (req, res) => {
   res.render("listings/show", { listing, title:"Show listing" });
 };
 
-module.exports.createRoute = async(req, res) => {
-    const newListing = new Listing(req.body.listing);
-     newListing.owner = req.user._id; 
-    await newListing.save();
-    req.flash("success", "New listing created!")
-    res.redirect("/listing");  
-}
+module.exports.createRoute = async (req, res) => {
+  const newListing = new Listing(req.body.listing);
+
+  newListing.owner = req.user._id;
+
+  // Correct Cloudinary format
+  newListing.image = {
+    url: req.file.path,
+    filename: req.file.filename
+  };
+
+  await newListing.save();
+  req.flash("success", "New listing created!");
+  res.redirect("/listing");
+};
 
 module.exports.editRoute = async (req, res) => {
   let { id } = req.params;
@@ -55,23 +62,40 @@ module.exports.editRoute = async (req, res) => {
 module.exports.updateRoute = async (req, res) => {
   let { id } = req.params;
 
-   // find the listing
-  const listing = await Listing.findById(id);
-  if (!listing) {
-    req.flash("error", "Listing not found.");
-    return res.redirect("/listing");
+  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { new: true });
+
+  if (req.file) {
+    listing.image = {
+      url: req.file.path,
+      filename: req.file.filename
+    };
+    await listing.save();
   }
 
-  // Ensure req.user exists (isLoggedIn should provide it) and check ownership
-  const userId = req.user && req.user._id;
-  if (!userId) {
-    req.flash("error", "You must be logged in to do that.");
-    return res.redirect("/login");
-  }
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  req.flash("success", "listing updated!!")
+  req.flash("success", "listing updated!");
   res.redirect(`/listing/${id}`);
 };
+
+
+
+
+   // find the listing
+  // const listing = await Listing.findById(id);
+  // if (!listing) {
+  //   req.flash("error", "Listing not found.");
+  //   return res.redirect("/listing");
+  // }
+
+  // // Ensure req.user exists (isLoggedIn should provide it) and check ownership
+  // const userId = req.user && req.user._id;
+  // if (!userId) {
+  //   req.flash("error", "You must be logged in to do that.");
+  //   return res.redirect("/login");
+  // }
+  // await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  // req.flash("success", "listing updated!!")
+  // res.redirect(`/listing/${id}`);
+// };
 
 module.exports.deleteRoute = async (req, res) => {
   let { id } = req.params;
@@ -80,3 +104,5 @@ module.exports.deleteRoute = async (req, res) => {
   req.flash("success", "Listing deleted!!!!!!");
   res.redirect("/listing");
 };
+  //    newListing.owner = req.user._id; 
+  //   await 

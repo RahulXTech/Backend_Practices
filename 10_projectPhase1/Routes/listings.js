@@ -7,8 +7,9 @@ const Listing = require("../models/listing");
 const {isLoggedIn} = require("../middleWare.js");
 const lisgingController = require("../controllers/listings.js")
 const multer = require("multer");
-const upload = multer({dest : 'uploads/'})
-
+const {storage} = require("../cloudeConfig.js")
+const upload = multer({storage})
+ 
 
 const validateListing = (req, res, next)=>{
     let {error} =  listingSchema.validate(req.body);
@@ -29,17 +30,25 @@ route.get("/listing/new",isLoggedIn, lisgingController.newRoute);
 route.get("/listing/:id", lisgingController.showRoute);
 
 // Create route
-// route.post("/listings",validateListing, wrapAsync(lisgingController.createRoute));
-route.post("/listings", upload.single('listing[image][url]') ,(req, res)=>{
-  res.send(req.file);
-  console.log(req.file);
-})
+route.post("/listings",
+  upload.single('image'),
+  validateListing,
+   wrapAsync(lisgingController.createRoute));
+
+
+// route.post("/listings", upload.single('listing[image][url]') ,(req, res)=>{
+//   res.send(req.file);
+//   console.log(req.file);
+// })
 
 // Edit route
 route.get("/listings/:id/edit",isLoggedIn, wrapAsync (lisgingController.editRoute));
 
 // Update route
-route.put("/listings/:id",isLoggedIn, wrapAsync(lisgingController.updateRoute));
+route.put("/listings/:id",
+  isLoggedIn, 
+  upload.single('image'),
+  wrapAsync(lisgingController.updateRoute));
 
 // Delete route
 route.delete("/listings/:id",isLoggedIn, wrapAsync(lisgingController.deleteRoute));
