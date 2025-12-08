@@ -13,12 +13,14 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync")
 const ExpressError = require("./utils/ExpressError");
 const { title } = require("process");
-const MONGO_URL = "mongodb://localhost:27017/wanderlust";
+// const MONGO_URL = "mongodb://localhost:27017/wanderlust";
+const dbUrl = process.env.ATLASDB_URL;
 const {listingSchema, reviewSchema} = require("./schema");
 // const Review = require("./models/review");
 const review = require("./models/review");
 const { date } = require("joi");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
@@ -30,7 +32,18 @@ const userRouter = require("./Routes/user.js");
 const listingRouter = require("./Routes/listings.js");
 const reviewRouter = require("./Routes/review.js");
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  cripto:{
+    secret: "mysupersecretcode"
+  },
+  touchAfter: 24 * 3600,
+ })
+store.on("error", ()=>{
+  console.log("ERROR in MONGO SESSION STORE", err)
+})
 const sessionOption = {
+  store,
   secret : "mysupersecretcode", 
   resave : false,
   saveUninitialized : true,
@@ -40,6 +53,8 @@ cookie: {
     httpOnly: true,
   }
 }
+
+
 app.use(session(sessionOption));
 app.use(flash());
 
@@ -58,9 +73,9 @@ app.use((req, res, next)=>{
   next();
 });
 
-app.get("/", (req, res) => {
-  res.render("listings/home", {title : "Home page"});
-});
+// app.get("/", (req, res) => {
+//   res.render("listings/home", {title : "Home page"});
+// });
 
 // app.get("/demouser", async (req, res) => {
 
@@ -80,7 +95,7 @@ main()
   .catch((err) => console.log("❌ DB Connection Error:", err));
  
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dbUrl);
 }
 
 // ✅ Register ejs-mate first

@@ -2,6 +2,65 @@
 <% // ✅ Safely set title so it never throws an error %>
 <% const pageTitle = typeof title !== "undefined" ? title : "WanderLust"; %>
 <title><%= pageTitle %></title>
+<style>
+  #filters{
+    display:  flex;
+    flex-direction: row;
+  }
+  .filter i{
+    font-size: 2vw;
+  }
+  .filter{
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 1rem;
+  }
+
+
+</style>
+
+
+<div id="filters">
+
+  <div class="filter">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </div>
+  
+  <div class="filter">
+    <div><i class="fa-solid fa-mountain"></i></div>
+    <p>Mountain</p>
+  </div>
+
+  <div class="filter">
+    <div><i class="fa-solid fa-city"></i></div>
+    <p>City</p>
+  </div>
+
+  <div class="filter">
+    <div><i class="fa-solid fa-tree"></i></div>
+    <p>Tree</p>
+  </div>
+
+  <div class="filter">
+    <div><i class="fa-solid fa-gift"></i></div>
+    <p>Gift</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </div>
+
+  <div class="filter">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </div>
+  
+  <div class="filter">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Bed</p>
+  </div>
+</div>
   <div class="row row-cols-lg-4 row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
     <% for (let listing of allListing) { %>
       <a class="listing-link" href="/listing/<%= listing._id %>">

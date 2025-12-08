@@ -29,7 +29,6 @@ const ListingSchema = new Schema({
   },
 });
 
-
 // FIXED middleware
 ListingSchema.post("findOneAndDelete", async (listing) => {
   if (listing) {
