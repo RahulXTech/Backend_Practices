@@ -11,7 +11,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync")
-const ExpressError = require("./utils/ExpressError");
+const ExpressError = require("./utils/ExpressError"); 
 const { title } = require("process");
 // const MONGO_URL = "mongodb://localhost:27017/wanderlust";
 const dbUrl = process.env.ATLASDB_URL;
@@ -35,7 +35,7 @@ const reviewRouter = require("./Routes/review.js");
 const store = MongoStore.create({
   mongoUrl: dbUrl,
   cripto:{
-    secret: "mysupersecretcode"
+    secret: process.env.SECRET
   },
   touchAfter: 24 * 3600,
  })
@@ -44,7 +44,7 @@ store.on("error", ()=>{
 })
 const sessionOption = {
   store,
-  secret : "mysupersecretcode", 
+  secret : process.env.SECRET,
   resave : false,
   saveUninitialized : true,
 cookie: {
